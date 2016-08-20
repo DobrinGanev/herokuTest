@@ -60,7 +60,12 @@ server.register(require('inert'), (err) => {
     method: 'GET',
     path: '/change',
     handler: function(request, reply) {
-      reply('change');
+      var change = {
+        "success": "true",
+        "accountIdentifier": "new-account-identifier"
+      }
+
+      reply(change);
     }
   });
   server.route({
