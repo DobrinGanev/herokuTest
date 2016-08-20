@@ -4,57 +4,94 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var Hapi = require('hapi')
+var yar = require('yar')
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
+var Grant = require('grant-hapi')
+var grant = new Grant()
+var server = new Hapi.Server()
+server.connection({
+  host: 'mynewapp12.herokuapp.com',
+  port: 3000
+})
 
-var app = express();
+server.register(require('inert'), (err) => {
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+  if (err) {
+    throw err;
+  }
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+  server.route({
+    method: 'GET',
+    path: '/',
+    handler: function(request, reply) {
+      reply.file('./views/index.html');
+    }
+  });
+  server.route({
+    method: 'GET',
+    path: '/login',
+    handler: function(request, reply) {
+      reply.file('./views/login.html');
+    }
+  });
 
-app.use('/', routes);
-app.use('/users', users);
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+  server.route({
+    method: 'GET',
+    path: '/assign',
+    handler: function(request, reply) {
+      reply('assign');
+    }
+  });
+  server.route({
+    method: 'GET',
+    path: '/unassign',
+    handler: function(request, reply) {
+      reply('unassign');
+    }
+  });
+  server.route({
+    method: 'GET',
+    path: '/create',
+    handler: function(request, reply) {
+      reply('create');
+    }
+  });
+  server.route({
+    method: 'GET',
+    path: '/change',
+    handler: function(request, reply) {
+      reply('change');
+    }
+  });
+  server.route({
+    method: 'GET',
+    path: '/upgrade',
+    handler: function(request, reply) {
+      reply('upgrade');
+    }
+  });
+  server.route({
+    method: 'GET',
+    path: '/cancel',
+    handler: function(request, reply) {
+      reply('cancel');
+    }
+  });
+  server.route({
+    method: 'GET',
+    path: '/status',
+    handler: function(request, reply) {
+      reply('status');
+    }
+  });
 });
 
-// error handlers
-
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
-  });
-}
-
-// production error handler
-// no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
+server.start((err) => {
+  if (err) {
+    throw err;
+  }
+  console.log('Server running at:', server.info.uri);
 });
 
-
-module.exports = app;
+module.exports = server;
