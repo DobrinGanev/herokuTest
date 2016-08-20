@@ -11,8 +11,7 @@ var Grant = require('grant-hapi')
 var grant = new Grant()
 var server = new Hapi.Server()
 server.connection({
-  host: 'mynewapp12.herokuapp.com',
-  port: process.env.PORT || 8080
+  port: process.env.PORT
 })
 
 server.register(require('inert'), (err) => {
