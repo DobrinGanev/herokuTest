@@ -50,7 +50,7 @@ app.get('/user/unassign', function (req, res) {
   "success": "true",
   "accountIdentifier": "new-account-identifier"
 }
-  res.send(assunassignign);
+  res.send(unassign);
 });
 
 
