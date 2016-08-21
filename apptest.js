@@ -75,10 +75,8 @@ app.get('/addon/unbind', function (req, res) {
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.get('/login', function(req, res){
-  res.render('login', { user: req.user });
+  res.render('login');
 });
-
-
 app.get('/index', function(req, res){
   res.render('index');
 });
