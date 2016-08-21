@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./app.js"
+    "start": "node ./apptest.js",
+    "test": "mocha"
   },
   "dependencies": {
     "crypto-js": "^3.1.5",
@@ -13,5 +14,9 @@
     "morgan": "~1.5.3",
     "request": "^2.61.0",
     "xml2js": "^0.4.10"
+  },
+  "devDependencies": {
+    "expect.js": "^0.3.1",
+    "mocha": "^3.0.2"
   }
 }

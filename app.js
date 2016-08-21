@@ -6,10 +6,15 @@ var appDirect = require('./appdirect-express')
 var port = process.env.PORT || 8080;
 var app = express();
 app.use(logger('dev'));
+
 var appDirectConfig = require('./app-direct.config')
 appDirectConfig.use_mocks = true;
 app.use(appDirect(app, appDirectConfig));
-
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
+app.get('/login', function(req, res){
+  res.render('login', { user: req.user });
+});
 /**
  * Catch 404 and forward to error handler
  */
