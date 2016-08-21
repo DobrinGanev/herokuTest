@@ -1,6 +1,10 @@
 var express = require('express');
 var app = express();
 var port = process.env.PORT || 3000;
+
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
+
 app.get('/create', function (req, res) {
   console.log(req.eventData)
   var create = {
@@ -72,8 +76,7 @@ app.get('/addon/unbind', function (req, res) {
 });
 
 
-app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
+
 app.get('/login', function(req, res){
   res.render('login');
 });
