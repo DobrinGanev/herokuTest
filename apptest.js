@@ -53,11 +53,36 @@ app.get('/user/unassign', function (req, res) {
 }
   res.send(unassign);
 });
+app.get('/addon/bind', function (req, res) {
+  console.log(req.eventData)
+  var bind = {
+  "success": "true",
+  "accountIdentifier": "new-account-identifier"
+}
+  res.send(bind);
+});
+
+app.get('/addon/unbind', function (req, res) {
+  console.log(req.eventData)
+  var unbind = {
+  "success": "true",
+  "accountIdentifier": "new-account-identifier"
+}
+  res.send(unbind);
+});
+
+
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.get('/login', function(req, res){
   res.render('login', { user: req.user });
 });
+
+
+app.get('/index', function(req, res){
+  res.render('index');
+});
+
 
 app.listen(port, function() {
     console.log('Our app is running on http://localhost:' + port);
