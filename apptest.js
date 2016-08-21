@@ -1,6 +1,40 @@
 var express = require('express');
 var app = express();
 var port = process.env.PORT || 3000;
+var request = require('request');
+var OAuth   = require('oauth-1.0a');
+var oauth = OAuth({
+    consumer: {
+        public: 'Dummy',
+        secret: 'secret'
+    },
+    signature_method: 'HMAC-SHA1'
+});
+// var qs = require('querystring');
+// var oauth = {
+//   callback: 'http://mysite.com/callback/',
+//   consumer_key: 'Dummy',
+//   consumer_secret: 'secret',
+//   signature_method: 'RSA-SHA1'
+// };
+// var url = 'https://www.appdirect.com/AppDirect/rest/api/events/dummyChange';
+
+
+var request_data = {
+    url: 'https://www.appdirect.com/AppDirect/rest/api/events/dummyChange',
+    method: 'GET',
+    data: {
+        status: 'Hello Ladies + Gentlemen, a signed OAuth request!'
+    }
+};
+request({
+    url: request_data.url,
+    method: request_data.method,
+    form: request_data.data,
+    headers: oauth.toHeader(oauth.authorize(request_data))
+}, function(error, response, body) {
+    console.log(body)
+});
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');

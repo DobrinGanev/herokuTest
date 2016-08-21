@@ -13,7 +13,8 @@
     "express": "~4.12.4",
     "js2xmlparser": "^1.0.0",
     "morgan": "~1.5.3",
-    "request": "^2.61.0",
+    "oauth-1.0a": "^1.0.1",
+    "request": "^2.74.0",
     "xml2js": "^0.4.10"
   },
   "devDependencies": {
