@@ -26,6 +26,7 @@ app.get('/update', function (req, res) {
   res.send(update);
 });
 
+
 app.get('/status', function (req, res) {
   console.log(req.eventData)
   var status = {
@@ -52,7 +53,11 @@ app.get('/user/unassign', function (req, res) {
 }
   res.send(unassign);
 });
-
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
+app.get('/login', function(req, res){
+  res.render('login', { user: req.user });
+});
 
 app.listen(port, function() {
     console.log('Our app is running on http://localhost:' + port);
