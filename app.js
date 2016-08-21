@@ -1,101 +1,22 @@
 var express = require('express');
 var path = require('path');
-var favicon = require('serve-favicon');
 var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var Hapi = require('hapi')
-var yar = require('yar')
+var qs = require('querystring');
+var appDirect = require('./appdirect-express')
 
-var Grant = require('grant-hapi')
-var grant = new Grant()
-var server = new Hapi.Server()
-server.connection({
-  port: process.env.PORT
-})
+var app = express();
+app.use(logger('dev'));
+var appDirectConfig = require('./app-direct.config')
+appDirectConfig.use_mocks = true;
+app.use(appDirect(app, appDirectConfig));
 
-server.register(require('inert'), (err) => {
-
-  if (err) {
-    throw err;
-  }
-
-  server.route({
-    method: 'GET',
-    path: '/',
-    handler: function(request, reply) {
-      reply.file('./views/index.html');
-    }
-  });
-  server.route({
-    method: 'GET',
-    path: '/login',
-    handler: function(request, reply) {
-      reply.file('./views/login.html');
-    }
-  });
-
-  server.route({
-    method: 'GET',
-    path: '/assign',
-    handler: function(request, reply) {
-      reply('assign');
-    }
-  });
-  server.route({
-    method: 'GET',
-    path: '/unassign',
-    handler: function(request, reply) {
-      reply('unassign');
-    }
-  });
-  server.route({
-    method: 'GET',
-    path: '/create',
-    handler: function(request, reply) {
-      reply('create');
-    }
-  });
-  server.route({
-    method: 'GET',
-    path: '/change',
-    handler: function(request, reply) {
-      var change = {
-        "success": "true",
-        "accountIdentifier": "new-account-identifier"
-      }
-
-      reply(change);
-    }
-  });
-  server.route({
-    method: 'GET',
-    path: '/upgrade',
-    handler: function(request, reply) {
-      reply('upgrade');
-    }
-  });
-  server.route({
-    method: 'GET',
-    path: '/cancel',
-    handler: function(request, reply) {
-      reply('cancel');
-    }
-  });
-  server.route({
-    method: 'GET',
-    path: '/status',
-    handler: function(request, reply) {
-      reply('status');
-    }
-  });
+/**
+ * Catch 404 and forward to error handler
+ */
+app.use(function(req, res, next) {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
 });
 
-server.start((err) => {
-  if (err) {
-    throw err;
-  }
-  console.log('Server running at:', server.info.uri);
-});
-
-module.exports = server;
+module.exports = app;
