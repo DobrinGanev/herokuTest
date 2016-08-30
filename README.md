@@ -1,10 +1,2 @@
-# 
-
-
- test app for heroku
-
- npm install
-
- npm run dev
-
- npm test
+# redux-passport-openid-minimal
+minimal starter kit with express, redux and passport-openid
